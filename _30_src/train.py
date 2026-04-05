@@ -38,7 +38,8 @@ def run(conf):
         # - Run an Episode
         while True:
             # - Get Transition by Action Selection and Environment Run
-            transition, state_next_mat = model_train.get_transition(env, state_mat)
+            transition, state_next_mat = model_train.get_transition(
+                env, state_mat)
 
             # - Update Policy by Transition
             model_train.update(transition)
@@ -51,7 +52,7 @@ def run(conf):
             done = transition[-2]
             if done:
                 break
-            
+
     """====================================================================================================
     ## Save Trained Policy at the End of Episode
     ===================================================================================================="""
@@ -103,6 +104,10 @@ def load_model(conf, player):
 
     elif ALGORITHM == 'dqn':
         model = _20_model.dqn._00_model.Dqn(
+            conf, policy_name_for_play=POLICY_NAME)
+
+    elif ALGORITHM == 'a2c':
+        model = _20_model.a2c._00_model.A2C(
             conf, policy_name_for_play=POLICY_NAME)
 
     # - Return Loaded Model for Each Player

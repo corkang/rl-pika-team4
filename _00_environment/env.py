@@ -393,7 +393,17 @@ class Env:
                     conf._enpika_self_play_model = model
                     conf._enpika_self_play_key = (algorithm_name, policy_name)
                 return model
-            # <<< Modified for DQN
+            if algorithm_name == "a2c":
+                a2c_module = importlib.import_module("_20_model.a2c._00_model")
+                model = a2c_module.A2C(
+                    conf,
+                    policy_name_for_play=policy_name,
+                )
+                if opponent_name == "self":
+                    conf._enpika_self_play_model = model
+                    conf._enpika_self_play_key = (algorithm_name, policy_name)
+                return model
+            # <<< Modified for DQN / A2C
 
             return original_load_model(conf, player)
 

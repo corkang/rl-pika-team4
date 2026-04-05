@@ -95,10 +95,10 @@ def load_model(conf, player):
     elif ALGORITHM == 'dqn':
         model = _20_model.dqn._00_model.Dqn(
             conf, policy_name_for_play=POLICY_NAME)
+        
+    elif ALGORITHM == 'a2c':
+        model = _20_model.a2c._00_model.A2C(
+            conf, policy_name_for_play=POLICY_NAME)
 
     # - Return Loaded Model for Each Player
     return model
-
-
-if __name__ == "__main__":
-    run()

@@ -25,7 +25,7 @@ class Config:
         self.seed = 100
 
         # Set the Train Player and Opponent for Training Mode
-        self.train_algorithm = ['qlearning', 'sarsa', 'dqn'][0]
+        self.train_algorithm = ['qlearning', 'sarsa', 'dqn', 'a2c'][0]
         self.train_side = ['1p', '2p'][0]
         self.train_rewrite = False
         self.train_opponent = 'rule'
@@ -50,3 +50,7 @@ class Config:
         # Path for DQN Outputs
         self.path_dqn_output = './_20_model/dqn/outputs'
         self.path_dqn_policy = './_20_model/dqn/outputs/policy_trained'
+
+        # Path for A2C Outputs
+        self.path_a2c_output = './_20_model/a2c/outputs'
+        self.path_a2c_policy = './_20_model/a2c/outputs/policy_trained'
