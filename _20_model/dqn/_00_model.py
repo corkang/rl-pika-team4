@@ -1,6 +1,7 @@
 # Import Required External Libraries
 import os
 import random
+import _20_model
 
 import torch
 import torch.nn as nn
@@ -113,8 +114,9 @@ class Dqn:
 
         # - Path for Target Policy
         self.policy_path = os.path.join(
-            self.conf.path_dqn_policy,
-            self.policy_name + '.pth')
+            _20_model.get_model_policy_dir(self.conf, self),
+            self.policy_name + '.pth',
+        )
 
         # - Create Policy Network
         self.policy = dqn._02_network.create_nn(

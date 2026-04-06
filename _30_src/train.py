@@ -94,21 +94,12 @@ def load_model(conf, player):
     elif ALGORITHM == 'rule':
         model = 'RULE'
 
-    elif ALGORITHM == 'qlearning':
-        model = _20_model.qlearning._00_model.Qlearning(
-            conf, policy_name_for_play=POLICY_NAME)
-
-    elif ALGORITHM == 'sarsa':
-        model = _20_model.sarsa._00_model.Sarsa(
-            conf, policy_name_for_play=POLICY_NAME)
-
-    elif ALGORITHM == 'dqn':
-        model = _20_model.dqn._00_model.Dqn(
-            conf, policy_name_for_play=POLICY_NAME)
-
-    elif ALGORITHM == 'a2c':
-        model = _20_model.a2c._00_model.A2C(
-            conf, policy_name_for_play=POLICY_NAME)
+    else:
+        model = _20_model.create_model(
+            conf,
+            algorithm_name=ALGORITHM,
+            policy_name_for_play=POLICY_NAME,
+        )
 
     # - Return Loaded Model for Each Player
     return model

@@ -1,5 +1,6 @@
 # Import Required External Libraries
 import os
+import _20_model
 
 import torch
 import torch.nn as nn
@@ -60,12 +61,14 @@ class A2C:
 
         # - Path for Target Policy
         self.actor_path = os.path.join(
-            self.conf.path_a2c_policy,
-            self.policy_name + '.pth')
+            _20_model.get_model_policy_dir(self.conf, self),
+            self.policy_name + '.pth',
+        )
 
         self.critic_path = os.path.join(
-            self.conf.path_a2c_policy,
-            self.policy_name + '_critic' + '.pth')
+            _20_model.get_model_policy_dir(self.conf, self),
+            self.policy_name + '_critic' + '.pth',
+        )
 
         # - Create Policy Network
         self.actor = a2c._02_network.create_nn(

@@ -362,48 +362,21 @@ class Env:
                 return "HUMAN"
             if algorithm_name == "rule":
                 return "RULE"
-            if algorithm_name == "qlearning":
-                qlearning_module = importlib.import_module("_20_model.qlearning._00_model")
-                model = qlearning_module.Qlearning(
+
+            try:
+                model_package = importlib.import_module("_20_model")
+                model = model_package.create_model(
                     conf,
+                    algorithm_name=algorithm_name,
                     policy_name_for_play=policy_name,
                 )
-                if opponent_name == "self":
-                    conf._enpika_self_play_model = model
-                    conf._enpika_self_play_key = (algorithm_name, policy_name)
-                return model
-            if algorithm_name == "sarsa":
-                sarsa_module = importlib.import_module("_20_model.sarsa._00_model")
-                model = sarsa_module.Sarsa(
-                    conf,
-                    policy_name_for_play=policy_name,
-                )
-                if opponent_name == "self":
-                    conf._enpika_self_play_model = model
-                    conf._enpika_self_play_key = (algorithm_name, policy_name)
-                return model
-            # >>> Modified for DQN
-            if algorithm_name == "dqn":
-                dqn_module = importlib.import_module("_20_model.dqn._00_model")
-                model = dqn_module.Dqn(
-                    conf,
-                    policy_name_for_play=policy_name,
-                )
-                if opponent_name == "self":
-                    conf._enpika_self_play_model = model
-                    conf._enpika_self_play_key = (algorithm_name, policy_name)
-                return model
-            if algorithm_name == "a2c":
-                a2c_module = importlib.import_module("_20_model.a2c._00_model")
-                model = a2c_module.A2C(
-                    conf,
-                    policy_name_for_play=policy_name,
-                )
-                if opponent_name == "self":
-                    conf._enpika_self_play_model = model
-                    conf._enpika_self_play_key = (algorithm_name, policy_name)
-                return model
-            # <<< Modified for DQN / A2C
+            except Exception:
+                return original_load_model(conf, player)
+
+            if opponent_name == "self":
+                conf._enpika_self_play_model = model
+                conf._enpika_self_play_key = (algorithm_name, policy_name)
+            return model
 
             return original_load_model(conf, player)
 

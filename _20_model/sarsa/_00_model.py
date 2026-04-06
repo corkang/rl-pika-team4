@@ -1,6 +1,7 @@
 # Import Required External Libraries
 import os
 import numpy as np
+import _20_model
 
 # Import Required Internal Libraries
 from _20_model import sarsa
@@ -29,7 +30,9 @@ class Sarsa:
 
         # - Target Policy Path
         self.policy_path = os.path.join(
-            self.conf.path_sarsa_policy, self.policy_name + ".pt")
+            _20_model.get_model_policy_dir(self.conf, self),
+            self.policy_name + ".pt",
+        )
 
         if self.conf.train_rewrite is not True:
             try:
