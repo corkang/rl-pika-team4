@@ -28,6 +28,19 @@ from .input import UserInput
 
 IMAGES_PATH = Path(__file__).with_name("images.json")
 CONF_PATH = Path(__file__).resolve().parents[1] / "_10_config" / "conf.py"
+TRACKED_INPUT_KEYS = (
+    pygame.K_h,
+    pygame.K_k,
+    pygame.K_u,
+    pygame.K_j,
+    pygame.K_z,
+    pygame.K_LEFT,
+    pygame.K_RIGHT,
+    pygame.K_UP,
+    pygame.K_DOWN,
+    pygame.K_RETURN,
+    pygame.K_KP_ENTER,
+)
 
 with IMAGES_PATH.open(encoding="utf-8") as image_file:
     ENCODED_IMAGES = json.load(image_file)
@@ -177,9 +190,25 @@ class Viewer:
         self.pending_command = None
         self.pressed_keys.clear()
 
+    def _sync_pressed_input_keys(self):
+        if self.headless:
+            self.pressed_keys.clear()
+            return
+
+        keyboard_state = pygame.key.get_pressed()
+        synced_keys = {
+            key_value
+            for key_value in self.pressed_keys
+            if key_value not in TRACKED_INPUT_KEYS
+        }
+        for key_value in TRACKED_INPUT_KEYS:
+            if keyboard_state[key_value]:
+                synced_keys.add(key_value)
+        self.pressed_keys = synced_keys
+
     def reset_input_state(self):
-        self.pressed_keys.clear()
         self.bnw_code_buffer = ""
+        self._sync_pressed_input_keys()
 
     def _ensure_audio(self):
         if self.audio is not None:
@@ -926,6 +955,7 @@ class Viewer:
 
     def get_human_input(self, player_id, player=None):
         self._process_events()
+        self._sync_pressed_input_keys()
 
         user_input = UserInput()
         if player_id == 0:

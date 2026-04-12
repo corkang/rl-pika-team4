@@ -37,7 +37,7 @@ class Config:
 
         # Black & White Mode
         BNW_MODE = True
-        BNW_MODE_PW = 'asdasdsd'
+        BNW_MODE_PW = 'sdasafasfdas'
 
         """====================================================================================================
         ## Configuration for Path
